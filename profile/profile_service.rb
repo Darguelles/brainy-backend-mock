@@ -2,6 +2,7 @@ require 'sinatra'
 require 'faker'
 require 'json'
 require 'tilt/jbuilder'
+require "sinatra/reloader"
 
 get '/ping' do
   'Pong'
