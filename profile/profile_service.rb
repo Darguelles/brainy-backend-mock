@@ -20,7 +20,6 @@ end
 get '/profile/:email' do
   content_type :json
   profile = Profile.mock_profile(params['email'])
-  profile.skillList.push(Skill.mock_skill)
   render_to_template('templates/profile.json.jbuilder', profile)
 end
 
@@ -61,6 +60,10 @@ class Profile
                           :location => '4th floor - Prod 1',
                           :englishLevel => 'C3',
                           :skillList => []
+
+    for _ in 1..7
+      profile.skillList.push(Skill.mock_skill)
+    end
 
     profile
   end
