@@ -5,11 +5,11 @@ require 'tilt/jbuilder'
 require "sinatra/reloader"
 
 #give support
-post '/profile/:email/skill/:idSkill/endorsements' do
+post '/profileApi/profile/:email/skill/:idSkill/endorsements' do
   {:averageLevel => Faker::Number.between(1, 10)}.to_json
 end
 
 #quit support
-delete '/profile/:email/skill/:idSkill/endorsements' do
+delete '/profileApi/profile/:email/skill/:idSkill/endorsements' do
   {:averageLevel => Faker::Number.between(1, 10)}.to_json
 end

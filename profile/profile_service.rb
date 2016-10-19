@@ -9,7 +9,7 @@ get '/ping' do
 end
 
 # save or update profile
-post '/profile' do
+post '/profileApi/profile' do
   request.body.rewind
   data = JSON.parse request.body.read
   data['id'] = 1
@@ -17,13 +17,13 @@ post '/profile' do
 end
 
 # Get profile information
-get '/profile/:email' do
+get '/profileApi/profile/:email' do
   profile = Profile.mock_profile(params['email'])
   render_to_template('templates/profile.json.jbuilder', profile)
 end
 
 #Get profile list
-get '/profiles' do
+get '/profileApi/profiles' do
   profiles = []
   profiles.push(Profile.mock_profile('email1@email.com'))
   profiles.push(Profile.mock_profile('email2@email.com'))
@@ -33,7 +33,7 @@ get '/profiles' do
 end
 
 # Get most endorsed skills
-get '/profile/:email/mostEndorsedSkills' do
+get '/profileApi/profile/:email/mostEndorsedSkills' do
   skills = []
   for _ in 1..3
     skills.push(Skill.mock_skill)
@@ -44,7 +44,7 @@ get '/profile/:email/mostEndorsedSkills' do
 end
 
 #Get my tags on some profile
-get '/profile/my-tags-on/:email' do
+get '/profileApi/profile/my-tags-on/:email' do
   tags = []
   for _ in 1..3
     tags.push(Tag.mock_tag)
@@ -55,18 +55,18 @@ get '/profile/my-tags-on/:email' do
 end
 
 # Tag user
-get '/profile/:email/tag-in/:idTag' do
+get '/profileApi/profile/:email/tag-in/:idTag' do
   # always is chevere
   'OK'
 end
 
-delete '/profile/:email/tag-in/:idTag' do
+delete '/profileApi/profile/:email/tag-in/:idTag' do
   # always is chevere
   'OK'
 end
 
 # Get tags created by me
-get '/my-tags' do
+get '/profileApi/my-tags' do
   tags = []
   for _ in 1..4
     tags.push(Tag.mock_tag)
@@ -77,7 +77,7 @@ get '/my-tags' do
 end
 
 # Save tag
-post '/my-tags' do
+post '/profileApi/my-tags' do
   request.body.rewind
   data = JSON.parse request.body.read
   data['id'] = Faker::Number.between(1, 10)
@@ -85,13 +85,13 @@ post '/my-tags' do
 end
 
 # Delete tag
-delete '/my-tags/:tag' do
+delete '/profileApi/my-tags/:tag' do
   # always is chevere
   'OK'
 end
 
 # Get people tagged in
-post '/my-tags/:name/people' do
+post '/profileApi/my-tags/:name/people' do
   user_tag = []
   for _ in 1..4
     user_tag.push(TagUser.mock_tag_user)
