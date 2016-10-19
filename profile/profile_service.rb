@@ -19,21 +19,25 @@ end
 # Get profile information
 get '/profile/:email' do
   content_type :json
-  template = Tilt::JbuilderTemplate.new('templates/profile.json.jbuilder')
   profile = Profile.mock_profile(params['email'])
   profile.skillList.push(Skill.mock_skill)
-  template.render(profile)
-
+  render_to_template('templates/profile.json.jbuilder', profile)
 end
 
 #Get profile list
 get '/profiles' do
-  find = params[:find]
   content_type :json
   profiles = []
-  profiles.push(Profile.mock_profile('email1@email.com').to_json)
-  profiles.push(Profile.mock_profile('email2@email.com').to_json)
-  profiles
+  profiles.push(Profile.mock_profile('email1@email.com'))
+  profiles.push(Profile.mock_profile('email2@email.com'))
+  elements = Elements.new
+  elements.elements = profiles
+  render_to_template('templates/profile_list.json.jbuilder', elements)
+end
+
+def render_to_template(template_name, item)
+  template = Tilt::JbuilderTemplate.new(template_name)
+  template.render(item)
 end
 
 class Profile
@@ -78,4 +82,8 @@ class Skill
     skill
   end
 
+end
+
+class Elements
+  attr_accessor :elements
 end
