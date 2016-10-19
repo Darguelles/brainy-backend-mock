@@ -13,4 +13,4 @@ gem 'tilt-jbuilder', '~> 0.7.1'
 gem 'sinatra-contrib', '~> 1.4', '>= 1.4.7'
 
 #Cross origin
-gem 'sinatra-cross_origin', '~> 0.3.1'
+gem 'rack-cors', '~> 0.4.0'
