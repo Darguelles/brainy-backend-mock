@@ -9,7 +9,7 @@ class MyApp < Sinatra::Application
   end
 
   configure do
-    register Sinatra::CrossOrigin
+    enable :cross_origin
   end
   
   before do
