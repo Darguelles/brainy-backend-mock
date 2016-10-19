@@ -11,21 +11,18 @@ end
 post '/profile' do
   request.body.rewind
   data = JSON.parse request.body.read
-  content_type :json
   data['id'] = 1
   data.to_json
 end
 
 # Get profile information
 get '/profile/:email' do
-  content_type :json
   profile = Profile.mock_profile(params['email'])
   render_to_template('templates/profile.json.jbuilder', profile)
 end
 
 #Get profile list
 get '/profiles' do
-  content_type :json
   profiles = []
   profiles.push(Profile.mock_profile('email1@email.com'))
   profiles.push(Profile.mock_profile('email2@email.com'))
@@ -36,7 +33,6 @@ end
 
 # Get most endorsed skills
 get '/profile/:email/mostEndorsedSkills' do
-  content_type :json
   skills = []
   for _ in 1..3
     skills.push(Skill.mock_skill)
