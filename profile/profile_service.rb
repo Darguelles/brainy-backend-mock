@@ -54,7 +54,52 @@ get '/profile/my-tags-on/:email' do
   render_to_template('templates/tag_list.json.jbuilder', elements)
 end
 
+# Tag user
+get '/profile/:email/tag-in/:idTag' do
+  # always is chevere
+  'OK'
+end
 
+delete '/profile/:email/tag-in/:idTag' do
+  # always is chevere
+  'OK'
+end
+
+# Get tags created by me
+get '/my-tags' do
+  tags = []
+  for _ in 1..4
+    tags.push(Tag.mock_tag)
+  end
+  elements = Elements.new
+  elements.elements = tags
+  render_to_template('templates/tag_list.json.jbuilder', elements)
+end
+
+# Save tag
+post '/my-tags' do
+  request.body.rewind
+  data = JSON.parse request.body.read
+  data['id'] = Faker::Number.between(1, 10)
+  data.to_json
+end
+
+# Delete tag
+delete '/my-tags/:tag' do
+  # always is chevere
+  'OK'
+end
+
+# Get people tagged in
+post '/my-tags/:name/people' do
+  user_tag = []
+  for _ in 1..4
+    user_tag.push(TagUser.mock_tag_user)
+  end
+  elements = Elements.new
+  elements.elements = user_tag
+  render_to_template('templates/tag_user_list.json.jbuilder', elements)
+end
 
 
 
@@ -130,6 +175,23 @@ class Tag
                   :info => Faker::Hacker.adjective,
                   :contactState => Faker::Hacker.adjective
 
+  end
+
+end
+
+class TagUser
+  attr_accessor :id, :userProfile, :tag
+
+  def initialize(init)
+    init.each_pair do |key, val|
+      instance_variable_set('@' + key.to_s, val)
+    end
+  end
+
+  def self.mock_tag_user
+    TagUser.new :id => Faker::Number.between(1, 10),
+                :userProfile => Profile.mock_profile('email@email.com'),
+                :tag => Tag.mock_tag
   end
 
 end
