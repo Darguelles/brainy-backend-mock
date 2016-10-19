@@ -43,6 +43,19 @@ get '/profile/:email/mostEndorsedSkills' do
   render_to_template('templates/skill_list.json.jbuilder', elements)
 end
 
+#Get my tags on some profile
+get '/profile/my-tags-on/:email' do
+  tags = []
+  for _ in 1..3
+    tags.push(Tag.mock_tag)
+  end
+  elements = Elements.new
+  elements.elements = tags
+  render_to_template('templates/tag_list.json.jbuilder', elements)
+end
+
+
+
 
 
 def render_to_template(template_name, item)
@@ -91,13 +104,32 @@ class Skill
   end
 
   def self.mock_skill
-    skill = Skill.new :id => Faker::Number.between(1, 10),
-                      :name => Faker::Hacker.adjective
-    skill
+    Skill.new :id => Faker::Number.between(1, 10),
+              :name => Faker::Hacker.adjective
   end
 
 end
 
 class Elements
   attr_accessor :elements
+end
+
+class Tag
+  attr_accessor :id, :userProfile, :name, :info, :contactState
+
+  def initialize(init)
+    init.each_pair do |key, val|
+      instance_variable_set('@' + key.to_s, val)
+    end
+  end
+
+  def self.mock_tag
+    Tag.new :id => Faker::Number.between(1, 10),
+                  :userProfile => Profile.mock_profile('email@email.com'),
+                  :name => Faker::Hacker.adjective,
+                  :info => Faker::Hacker.adjective,
+                  :contactState => Faker::Hacker.adjective
+
+  end
+
 end
