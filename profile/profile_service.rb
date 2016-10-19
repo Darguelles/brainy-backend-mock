@@ -55,7 +55,7 @@ get '/profileApi/profile/my-tags-on/:email' do
 end
 
 # Tag user
-get '/profileApi/profile/:email/tag-in/:idTag' do
+post '/profileApi/profile/:email/tag-in/:idTag' do
   # always is chevere
   'OK'
 end
