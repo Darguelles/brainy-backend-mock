@@ -1,11 +1,13 @@
 require 'sinatra'
 require 'faker'
 require 'json'
+require 'tilt/jbuilder'
 
-get '/hello' do
-  'Hello from profile!'
+get '/ping' do
+  'Pong'
 end
 
+# save or update profile
 post '/profile' do
   request.body.rewind
   data = JSON.parse request.body.read
@@ -14,27 +16,34 @@ post '/profile' do
   data.to_json
 end
 
+# Get profile information
 get '/profile/:email' do
   content_type :json
-  p = Profile.mock_profile(params['email'])
-  p.skillList.push(Skill.mock_skill.to_json)
-  p.to_json
+  template = Tilt::JbuilderTemplate.new('templates/profile.json.jbuilder')
+  profile = Profile.mock_profile(params['email'])
+  profile.skillList.push(Skill.mock_skill)
+  template.render(profile)
+
+end
+
+#Get profile list
+get '/profiles' do
+  find = params[:find]
+  content_type :json
+  profiles = []
+  profiles.push(Profile.mock_profile('email1@email.com').to_json)
+  profiles.push(Profile.mock_profile('email2@email.com').to_json)
+  profiles
 end
 
 class Profile
 
   attr_accessor :id, :names, :email, :englishLevel, :location, :position, :skillList, :skype, :summary
 
-  #skills = Array.new([Skill.mock_skill, Skill.mock_skill])
-
   def initialize(init)
     init.each_pair do |key, val|
       instance_variable_set('@' + key.to_s, val)
     end
-  end
-
-  def to_json
-    {:id => id, :names => names, :email => email, :englishLevel => englishLevel, :location => location, :position => position, :skillList => skillList, :skype => skype, :summary => summary}.to_json
   end
 
   def self.mock_profile(email)
@@ -61,10 +70,6 @@ class Skill
     init.each_pair do |key, val|
       instance_variable_set('@' + key.to_s, val)
     end
-  end
-
-  def to_json
-    {:id => id, :name => name}.to_json
   end
 
   def self.mock_skill
