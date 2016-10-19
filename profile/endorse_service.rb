@@ -2,6 +2,7 @@ require 'sinatra'
 require 'faker'
 require 'json'
 require 'tilt/jbuilder'
+require "sinatra/reloader"
 
 #give support
 post '/profile/:email/skill/:idSkill/endorsements' do
