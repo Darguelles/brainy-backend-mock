@@ -1,4 +1,4 @@
 require './profile/profile_service'
-require './skill/skill'
+#require './skill/skill'
 
 run Sinatra::Application
