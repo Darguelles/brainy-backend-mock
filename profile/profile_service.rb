@@ -34,6 +34,20 @@ get '/profiles' do
   render_to_template('templates/profile_list.json.jbuilder', elements)
 end
 
+# Get most endorsed skills
+get '/profile/:email/mostEndorsedSkills' do
+  content_type :json
+  skills = []
+  for _ in 1..3
+    skills.push(Skill.mock_skill)
+  end
+  elements = Elements.new
+  elements.elements = skills
+  render_to_template('templates/skill_list.json.jbuilder', elements)
+end
+
+
+
 def render_to_template(template_name, item)
   template = Tilt::JbuilderTemplate.new(template_name)
   template.render(item)
