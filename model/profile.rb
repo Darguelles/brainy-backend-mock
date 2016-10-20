@@ -1,35 +1,25 @@
 require 'sinatra'
 require 'faker'
-require 'json'
+require 'sinatra/reloader'
+require './model/skill'
 
 class Profile
 
   attr_accessor :id, :names, :email, :englishLevel, :location, :position, :skillList, :skype, :summary
 
-  #skills = Array.new([Skill.mock_skill, Skill.mock_skill])
-
-  def initialize(init)
-    init.each_pair do |key, val|
-      instance_variable_set('@' + key.to_s, val)
-    end
-  end
-
-  def to_json
-    {:id => id, :names => names, :email => email, :englishLevel => englishLevel, :location => location, :position => position, :skillList => skillList, :skype => skype, :summary => summary}.to_json
-  end
-
-
   def self.mock_profile(email)
+    profile = Profile.new 
+    profile.id = Faker::Number.between(1, 10)
+    profile.names = Faker::StarWars.character
+    profile.email = email
+    profile.summary = Faker::Lorem.sentence
+    profile.position = 'SE III'
+    profile.skype = Faker::StarWars.specie
+    profile.location = '4th floor - Prod 1'
+    profile.englishLevel = 'C3'
+    profile.skillList = []
 
-    profile = Profile.new :id => Faker::Number.between(1, 10),
-                          :names => Faker::StarWars.character,
-                          :email => email,
-                          :summary => Faker::Lorem.sentence,
-                          :position => 'SE III',
-                          :skype => Faker::StarWars.specie,
-                          :location => '4th floor - Prod 1',
-                          :englishLevel => 'C3',
-                          :skillList => []
+    (1..7).each { |_| profile.skillList.push(Skill.mock_skill) }
 
     profile
   end
