@@ -63,6 +63,6 @@ delete '/profileApi/my-tags/:tag' do
 end
 
 # Get people tagged in
-post '/profileApi/my-tags/:name/people' do
+get '/profileApi/my-tags/:name/people' do
   ProfileController.people_tagged_in
 end
