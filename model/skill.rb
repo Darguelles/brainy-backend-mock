@@ -11,7 +11,7 @@ class Skill
     skill.id =  Faker::Number.between(1, 10)
     skill.name = Faker::Hacker.adjective
     skill.myLevel = Faker::Number.between(1, 5)
-    skill.averageLevel = Faker::Number.between(1, 5)
+    skill.averageLevel = Faker::Number.between(1.0, 5.0).round(1)
     skill
   end
 
