@@ -7,5 +7,5 @@ json.elements(@elements) do |profile|
   json.position profile.position
   json.skype profile.skype
   json.summary profile.summary
-  json.skillList profile.skillList, :id, :name
+  json.skillList profile.skillList, :id, :name, :myLevel, :averageLevel
 end
